@@ -1,5 +1,9 @@
 name: Go Build and Deployment
 
+env: 
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 on:
   push:
     branches:
@@ -47,7 +51,7 @@ jobs:
       run: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
 
     - name: docker build
-      run: docker build . -t ${DOCKER_USERNAME}/test:latest
+      run: docker build . -t ${DOCKER_USERNAME}/k8s-dynamic-env:1.0.0
 
     - name: docker push
       run: docker push ${DOCKER_USERNAME}/test:latest    
