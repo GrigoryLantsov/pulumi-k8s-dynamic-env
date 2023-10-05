@@ -15,18 +15,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v4
       with:
-          go-version: 1.20
-
-    - name: Create Go cache directory
-      run: mkdir -p $HOME/.go
-
-    - name: Restore Go cache
-      uses: actions/cache@v2
-      with:
-          path: $HOME/.go/pkg/mod
-          key: go-cache-1.20-${{ runner.os }}
+          go-version: '1.20'
 
     - name: Build Go application
       run: |
@@ -49,7 +40,7 @@ jobs:
 
     - uses: actions/download-artifact@master
       with:
-          name: main
+          name: go-artifact
           path: ./main
 
     - name: docker login
