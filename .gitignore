@@ -1,0 +1,5 @@
+vendor/
+main
+k8s-dynamic-env
+.env
+.gitlab-ci.yml

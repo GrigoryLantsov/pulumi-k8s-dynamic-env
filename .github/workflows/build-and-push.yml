@@ -1,0 +1,62 @@
+name: Go Build and Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build_artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+          go-version: 1.20
+
+    - name: Create Go cache directory
+      run: mkdir -p $HOME/.go
+
+    - name: Restore Go cache
+      uses: actions/cache@v2
+      with:
+          path: $HOME/.go/pkg/mod
+          key: go-cache-1.20-${{ runner.os }}
+
+    - name: Build Go application
+      run: |
+        go mod tidy -compat=1.20
+        CGO_ENABLED=0 go build -o main ./src
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+          name: go-artifact
+          path: main
+
+  build_push_image:
+    needs: build_artifact
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - uses: actions/download-artifact@master
+      with:
+          name: main
+          path: ./main
+
+    - name: docker login
+      run: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+
+    - name: docker build
+      run: docker build . -t ${DOCKER_USERNAME}/test:latest
+
+    - name: docker push
+      run: docker push ${DOCKER_USERNAME}/test:latest    

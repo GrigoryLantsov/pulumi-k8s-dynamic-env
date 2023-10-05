@@ -1,0 +1,7 @@
+name: k8s-dynamic-env
+runtime:
+  name: go
+  options:
+    binary: k8s-dynamic-env
+description: A Go program to deploy a Helm chart onto a Kubernetes cluster
+workdir: ./src
