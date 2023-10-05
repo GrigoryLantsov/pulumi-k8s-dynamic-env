@@ -2,6 +2,8 @@
 
 ## Overview
 
+Current image is kaligrir/k8s-dynamic-env:latest
+
 This image allows you to create a dynamic environment using [Pulumi](https://www.pulumi.com/). Currently, it supports the following:
 
 1. Namespace creation. Depends on variables ```DEPLOY_KUBER_NAMESPACE```-```CI_BRANCH_NAME```.

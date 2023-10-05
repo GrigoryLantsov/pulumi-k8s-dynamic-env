@@ -54,4 +54,7 @@ jobs:
       run: docker build . -t ${DOCKER_USERNAME}/k8s-dynamic-env:1.0.0
 
     - name: docker push
-      run: docker push ${DOCKER_USERNAME}/test:latest    
+      run: |
+        docker push ${DOCKER_USERNAME}/k8s-dynamic-env:1.0.0
+        docker tag ${DOCKER_USERNAME}/k8s-dynamic-env:1.0.0 ${DOCKER_USERNAME}/k8s-dynamic-env:latest
+        docker push ${DOCKER_USERNAME}/k8s-dynamic-env:latest
